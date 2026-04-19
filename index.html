@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>NAM HỎI YIP ĐÁP</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    animation: bg 6s infinite alternate;
+}
+
+/* nền đổi màu */
+@keyframes bg {
+    0% {background: #ff758c;}
+    50% {background: #ff7eb3;}
+    100% {background: #ffb199;}
+}
+
+/* sticker */
+.sticker {
+    position: absolute;
+    animation: float 5s linear infinite;
+}
+@keyframes float {
+    from {transform: translateY(100vh);}
+    to {transform: translateY(-10vh);}
+}
+
+h1 {
+    font-size: 70px;
+    color: white;
+}
+
+h2 {
+    font-size: 55px;
+    color: white;
+}
+
+button {
+    padding: 20px 40px;
+    font-size: 28px;
+    border-radius: 35px;
+    border: none;
+    margin: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#yes {
+    background: #ff3d6d;
+    color: white;
+}
+
+#no {
+    background: black;
+    color: white;
+    position: relative;
+}
+
+.hidden {display:none;}
+</style>
+</head>
+
+<body>
+
+<div id="home">
+    <h1>💖 NAM HỎI YIP ĐÁP 💖</h1>
+    <button onclick="start()">lẹt gâu 🚀</button>
+</div>
+
+<div id="quiz" class="hidden">
+    <h2 id="qtext">Bạn thấy Nam cute không? 😏</h2>
+    <button id="yes" onclick="yesClick()">Có 💕</button>
+    <button id="no" onclick="noClick()" onmouseover="moveNo()">Không 💀</button>
+</div>
+
+<script>
+let step = 0;
+let noScale = 1;
+let yesScale = 1;
+
+/* vào câu hỏi */
+function start(){
+    document.getElementById("home").classList.add("hidden");
+    document.getElementById("quiz").classList.remove("hidden");
+}
+
+/* sticker bay */
+setInterval(()=>{
+    let s = document.createElement("div");
+    let icons = ["💖","✨","🔥","😍","💘","💅"];
+    s.className = "sticker";
+    s.innerHTML = icons[Math.floor(Math.random()*icons.length)];
+    s.style.left = Math.random()*100+"vw";
+    s.style.fontSize = (20+Math.random()*25)+"px";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),5000);
+},200);
+
+/* chọn có */
+function yesClick(){
+    document.body.innerHTML =
+    "<h1 style='font-size:60px;color:white'>Nam cute: vk anh bá vcl !!! 😎🔥💖</h1>";
+}
+
+/* chọn không */
+function noClick(){
+    step++;
+
+    if(step === 1){
+        document.getElementById("qtext").innerText = "Bạn có chắc chắn không? 🤨";
+    }
+
+    // thu nhỏ nút không
+    noScale *= 0.6;
+    document.getElementById("no").style.transform = "scale(" + noScale + ")";
+
+    // phóng to nút có
+    yesScale *= 1.2;
+    document.getElementById("yes").style.transform = "scale(" + yesScale + ")";
+
+    // rung nhẹ
+    document.body.style.transform = "translateX(5px)";
+    setTimeout(()=>document.body.style.transform="translateX(0)",100);
+
+    // đổi chỗ sau vài lần
+    if(step >= 2){
+        let yes = document.getElementById("yes");
+        let no = document.getElementById("no");
+        let parent = yes.parentNode;
+        parent.insertBefore(no, yes);
+    }
+}
+
+/* né chuột */
+function moveNo(){
+    let btn = document.getElementById("no");
+    btn.style.position = "absolute";
+    btn.style.left = Math.random()*80 + "%";
+    btn.style.top = Math.random()*80 + "%";
+}
+</script>
+
+</body>
+</html>
